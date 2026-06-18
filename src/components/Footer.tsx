@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Smile, Calendar, Trash2, CheckCircle2, X, Database, ShieldAlert, ArrowDown } from "lucide-react";
+import { Calendar, Trash2, CheckCircle2, X, Database, ShieldAlert } from "lucide-react";
 import { Appointment } from "../types";
 
 interface FooterProps {
@@ -19,99 +19,160 @@ export function Footer({ appointments, onConfirmAppt, onCancelAppt }: FooterProp
 
   return (
     <>
-      <footer id="dental-footer" className="relative bg-slate-950 text-white overflow-hidden pt-24 pb-12 font-sans">
+      <footer id="dental-footer" className="relative bg-[#1C1242] text-white pt-36 pb-12 font-sans overflow-hidden">
         
-        {/* Decorative Wave Overlay Separator */}
-        <div className="absolute top-0 left-0 right-0 z-0 select-none pointer-events-none transform rotate-180">
+        {/* Layered Wave Design from attached image */}
+        <div className="absolute top-0 left-0 right-0 w-full h-[130px] sm:h-[180px] md:h-[220px] overflow-hidden leading-none pointer-events-none z-0">
           <svg
-            viewBox="0 0 1440 120"
-            className="w-full h-auto text-white fill-current opacity-100"
-            xmlns="http://www.w3.org/2500/svg"
+            viewBox="0 0 1440 220"
+            className="relative block w-full h-full text-white fill-current translate-y-[-2px]"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
           >
-            <path d="M0,64L120,53.3C240,43,480,21,720,21C960,21,1200,43,1320,53.3L1440,64L1440,0L1320,0C1200,0,960,0,720,0C480,0,240,0,120,0L0,0Z"></path>
+            {/* White top backdrop covering the very top */}
+            <rect width="1440" height="40" fill="#ffffff" />
+            
+            {/* Wave 1: Soft lavender layer */}
+            <path
+              d="M0,40 C320,130 640,-10 960,110 C1200,170 1360,90 1440,50 L1440,220 L0,220 Z"
+              fill="#5D57A5"
+              opacity="0.3"
+            />
+            
+            {/* Wave 2: Mid purple transparent layer */}
+            <path
+              d="M0,60 C400,170 700,20 1020,130 C1240,195 1360,110 1440,70 L1440,220 L0,220 Z"
+              fill="#5D57A5"
+              opacity="0.5"
+            />
+            
+            {/* Wave 3: Solid background matching the footer color */}
+            <path
+              d="M0,85 C440,190 740,30 1080,140 C1280,190 1380,120 1440,85 L1440,220 L0,220 Z"
+              fill="#1C1242"
+            />
           </svg>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 border-b border-white/10 pb-16">
+        {/* Content of Footer */}
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 z-10 space-y-12">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             
-            {/* Column 1: Brand details */}
-            <div className="md:col-span-5 space-y-4">
-              <a href="#home" className="flex items-center gap-2 group w-max">
-                <div className="p-2 bg-yellow-400 text-slate-900 rounded-full group-hover:scale-105 transition-all">
-                  <Smile className="w-5 h-5" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-display font-bold text-lg tracking-tight leading-none text-white">
-                    City Smile
-                  </span>
-                  <span className="text-[9px] text-yellow-300 font-mono tracking-widest uppercase mt-0.5">
-                    Dental Clinic
-                  </span>
-                </div>
-              </a>
-              <p className="text-neutral-400 text-xs leading-relaxed max-w-sm">
-                State-of-the-art restorative dental hygiene, laser alignments, and gentle family care diagnostics located in the center of Nappa, CA.
-              </p>
+            {/* Glassy Panel 1: Services and Quick Links */}
+            <div className="lg:col-span-8 bg-[#8C82C4]/20 backdrop-blur-lg rounded-[35px] sm:rounded-[45px] md:rounded-[50px] border border-white/15 p-8 sm:p-10 md:p-14 flex flex-col sm:flex-row justify-around gap-10 shadow-lg">
               
-              {/* Database Indicator representing backend pipeline */}
-              <div className="pt-2">
-                <button
-                  id="toggle-staff-database-btn"
-                  onClick={() => setShowStaffPortal(true)}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-neutral-800 text-yellow-300 hover:bg-neutral-700 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer shadow-xs border border-neutral-700/50"
-                >
-                  <Database size={11} className="animate-pulse" />
-                  <span>Interactive Staff Database Portal</span>
-                </button>
+              {/* Column: Our Services */}
+              <div className="space-y-6">
+                <h4 className="text-[14px] sm:text-[15px] font-bold uppercase tracking-[0.15em] text-white">
+                  OUR SERVICES
+                </h4>
+                <ul className="space-y-4 text-sm text-[#DFDBF2]/80 font-medium tracking-wide">
+                  <li>
+                    <a href="#services" className="hover:text-yellow-300 transition-colors flex items-center gap-2">
+                      <span className="text-white/40">-</span> Dental Implants
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#services" className="hover:text-yellow-300 transition-colors flex items-center gap-2">
+                      <span className="text-white/40">-</span> Teeth Whitening
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#services" className="hover:text-yellow-300 transition-colors flex items-center gap-2">
+                      <span className="text-white/40">-</span> Braces & Aligners
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#services" className="hover:text-yellow-300 transition-colors flex items-center gap-2">
+                      <span className="text-white/40">-</span> Teeth Cleaning
+                    </a>
+                  </li>
+                </ul>
               </div>
+
+              {/* Column: Quick Links */}
+              <div className="space-y-6">
+                <h4 className="text-[14px] sm:text-[15px] font-bold uppercase tracking-[0.15em] text-white">
+                  QUICK LINKS
+                </h4>
+                <ul className="space-y-4 text-sm text-[#DFDBF2]/80 font-medium tracking-wide">
+                  <li>
+                    <a href="#home" className="hover:text-yellow-300 transition-colors flex items-center gap-2">
+                      <span className="text-white/40">-</span> Home
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#services" className="hover:text-yellow-300 transition-colors flex items-center gap-2">
+                      <span className="text-white/40">-</span> Services
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#about-us" className="hover:text-yellow-300 transition-colors flex items-center gap-2">
+                      <span className="text-white/40">-</span> About
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#blogs" className="hover:text-yellow-300 transition-colors flex items-center gap-2">
+                      <span className="text-white/40">-</span> Blogs
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
             </div>
 
-            {/* Column 2: Specialties */}
-            <div className="md:col-span-3 space-y-4">
-              <h4 className="text-xs font-black uppercase tracking-widest text-yellow-400">
-                Our Specialties
+            {/* Glassy Panel 2: Opening Hours */}
+            <div className="lg:col-span-4 bg-[#8C82C4]/20 backdrop-blur-lg rounded-[35px] sm:rounded-[45px] md:rounded-[50px] border border-white/15 p-8 sm:p-10 md:p-14 flex flex-col justify-center space-y-6 shadow-lg">
+              <h4 className="text-[14px] sm:text-[15px] font-bold uppercase tracking-[0.15em] text-white">
+                OPENING HOURS
               </h4>
-              <ul className="space-y-2 text-xs text-neutral-400">
-                <li><a href="#services" className="hover:text-yellow-400 transition-colors">Orthodontic Braces</a></li>
-                <li><a href="#services" className="hover:text-yellow-400 transition-colors">Enamel Whitening</a></li>
-                <li><a href="#services" className="hover:text-yellow-400 transition-colors">Prophylactic Cleaning</a></li>
-                <li><a href="#services" className="hover:text-yellow-400 transition-colors">Children Checkups</a></li>
+              <ul className="space-y-4 text-sm text-[#DFDBF2]/80 font-medium tracking-wide">
+                <li className="flex items-center gap-2">
+                  <span className="text-white/40">-</span> Mon – Fri: 9am – 5pm
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-white/40">-</span> Sat – Sun: 10am – 4pm
+                </li>
               </ul>
             </div>
 
-            {/* Column 3: Timings */}
-            <div className="md:col-span-4 space-y-4">
-              <h4 className="text-xs font-black uppercase tracking-widest text-yellow-400">
-                Opening Hours
-              </h4>
-              <div className="space-y-2 text-xs text-neutral-400">
-                <div className="flex justify-between items-center">
-                  <span>Monday - Friday:</span>
-                  <span className="font-semibold text-white font-mono">9:00 AM - 7:00 PM</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>Saturday:</span>
-                  <span className="font-semibold text-white font-mono">9:00 AM - 5:00 PM</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span>Sunday:</span>
-                  <span className="font-semibold text-rose-400 uppercase font-mono">Closed</span>
-                </div>
+          </div>
+
+          {/* Footer Bottom Bar */}
+          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+            
+            {/* Branding Block */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                <svg className="w-5 h-5 text-yellow-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2C10.5 2 9.5 3 9 4.5c-.3 1-.3 2.2-.4 3.5-.1 1-.5 2-1.2 2.7C6.7 11.4 6 12.5 6 14c0 3.3 2.7 6 6 6s6-2.7 6-6c0-1.5-.7-2.6-1.4-3.3-.7-.7-1.1-1.7-1.2-2.7-.1-1.3-.1-2.5-.4-3.5C14.5 3 13.5 2 12 2Z" />
+                </svg>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[14px] font-bold tracking-wide text-white uppercase leading-none">City Smile</span>
+                <span className="text-[7.5px] text-yellow-300 font-mono tracking-widest uppercase mt-1">DENTAL PRACTICE</span>
               </div>
             </div>
 
+            {/* Backoffice access */}
+            <div className="flex items-center gap-4">
+              <button
+                id="toggle-staff-database-btn"
+                onClick={() => setShowStaffPortal(true)}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-yellow-300 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer border border-white/10"
+              >
+                <Database size={11} className="animate-pulse" />
+                <span>Interactive Staff Admin Portal</span>
+              </button>
+            </div>
+
+            <div className="text-[10px] text-white/50 font-mono">
+              © 2026 CITY SMILE PRACTICE INC. • <a href="#home" className="hover:text-yellow-300">PRIVACY</a>
+            </div>
+
           </div>
 
-          {/* Deep footer credits */}
-          <div className="pt-10 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] text-neutral-500 font-mono">
-            <span>© 2026 CITY SMILE PRACTICE INC. ALL RIGHTS RESERVED.</span>
-            <div className="flex gap-4">
-              <a href="#home" className="hover:text-yellow-400 transition-colors">PRIVACY CODE</a>
-              <span>•</span>
-              <a href="#home" className="hover:text-yellow-400 transition-colors">OPERATIONAL CONSENTS</a>
-            </div>
-          </div>
         </div>
       </footer>
 
@@ -188,8 +249,8 @@ export function Footer({ appointments, onConfirmAppt, onCancelAppt }: FooterProp
                         >
                           <div className="flex items-start justify-between gap-2">
                             <div>
-                              <div className="text-xs font-bold text-slate-800">{appt.patientName}</div>
-                              <div className="text-[10px] text-neutral-400 mt-0.5 font-mono">{appt.email} | {appt.phone}</div>
+                               <div className="text-xs font-bold text-slate-800">{appt.patientName}</div>
+                               <div className="text-[10px] text-neutral-400 mt-0.5 font-mono">{appt.email} | {appt.phone}</div>
                             </div>
                             
                             <div className="flex items-center gap-1.5">

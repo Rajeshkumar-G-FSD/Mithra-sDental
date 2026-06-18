@@ -10,6 +10,7 @@ import { Hero } from "./components/Hero";
 import { AboutUs } from "./components/AboutUs";
 import { Services } from "./components/Services";
 import { VisitUs } from "./components/VisitUs";
+import { Blogs } from "./components/Blogs";
 import { Gallery } from "./components/Gallery";
 import { ContactForm } from "./components/ContactForm";
 import { AppointmentModal } from "./components/AppointmentModal";
@@ -41,11 +42,11 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-white">
-      {/* 1. Global Navigation Header Header */}
+    <div className="relative min-h-screen bg-white font-sans selection:bg-[#5D57A5] selection:text-white">
+      {/* 1. Global Navigation Header (Floating Capsule style) */}
       <Header onOpenBooking={handleOpenGeneralBooking} />
 
-      {/* 2. Visual Clinic Hero Display */}
+      {/* 2. Visual Clinic Hero Display (Exact violet glow photo backdrop) */}
       <Hero onOpenBooking={handleOpenGeneralBooking} />
 
       {/* 3. About City Smile Section */}
@@ -57,20 +58,23 @@ export default function App() {
       {/* 5. Same Day Urgent Care Layout */}
       <VisitUs onOpenBooking={handleOpenGeneralBooking} />
 
-      {/* 6. Dynamic Visual Gallery of Smiles */}
+      {/* 6. Dynamic Blogs Section */}
+      <Blogs />
+
+      {/* 7. Dynamic Visual Gallery of Smiles */}
       <Gallery />
 
-      {/* 7. Practice Location & Contact Enquiry form */}
+      {/* 8. Practice Location & Contact Enquiry form */}
       <ContactForm onSubmitContact={submitContactForm} />
 
-      {/* 8. Global Wavy Footer and Staff Portal drawer links */}
+      {/* 9. Global Wavy Footer and Staff Portal drawer links */}
       <Footer
         appointments={appointments}
         onConfirmAppt={confirmAppointment}
         onCancelAppt={cancelAppointment}
       />
 
-      {/* 9. Interactive Booking Modal Popup */}
+      {/* 10. Interactive Booking Modal Popup */}
       <AppointmentModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
