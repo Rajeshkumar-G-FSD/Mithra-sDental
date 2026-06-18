@@ -1,0 +1,6 @@
+{
+  "name": "Tailwind Minimal Workspace",
+  "description": "A beautifully designed, highly scalable single-screen workspace boilerplate built with React, TypeScript, and Tailwind CSS, featuring robust components, structured hooks, and typified services.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
