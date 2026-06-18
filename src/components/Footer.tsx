@@ -22,33 +22,33 @@ export function Footer({ appointments, onConfirmAppt, onCancelAppt }: FooterProp
       <footer id="dental-footer" className="relative bg-[#1C1242] text-white pt-36 pb-12 font-sans overflow-hidden">
         
         {/* Layered Wave Design from attached image */}
-        <div className="absolute top-0 left-0 right-0 w-full h-[130px] sm:h-[180px] md:h-[220px] overflow-hidden leading-none pointer-events-none z-0">
+        <div className="absolute top-0 left-0 right-0 w-full h-[80px] sm:h-[130px] md:h-[180px] overflow-hidden leading-none pointer-events-none z-0">
           <svg
-            viewBox="0 0 1440 220"
+            viewBox="0 0 1440 180"
             className="relative block w-full h-full text-white fill-current translate-y-[-2px]"
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
           >
-            {/* White top backdrop covering the very top */}
+            {/* White top backdrop covering the top edge to guarantee clean transition */}
             <rect width="1440" height="40" fill="#ffffff" />
             
             {/* Wave 1: Soft lavender layer */}
             <path
-              d="M0,40 C320,130 640,-10 960,110 C1200,170 1360,90 1440,50 L1440,220 L0,220 Z"
+              d="M0,60 C320,150 640,-10 960,110 C1200,170 1360,95 1440,55 L1440,180 L0,180 Z"
               fill="#5D57A5"
-              opacity="0.3"
+              opacity="0.25"
             />
             
             {/* Wave 2: Mid purple transparent layer */}
             <path
-              d="M0,60 C400,170 700,20 1020,130 C1240,195 1360,110 1440,70 L1440,220 L0,220 Z"
+              d="M0,85 C400,180 700,20 1020,140 C1240,200 1360,115 1440,75 L1440,180 L0,180 Z"
               fill="#5D57A5"
-              opacity="0.5"
+              opacity="0.45"
             />
             
-            {/* Wave 3: Solid background matching the footer color */}
+            {/* Wave 3: Solid background matching the footer color (#1C1242) */}
             <path
-              d="M0,85 C440,190 740,30 1080,140 C1280,190 1380,120 1440,85 L1440,220 L0,220 Z"
+              d="M0,110 C440,210 740,30 1080,165 C1280,210 1380,140 1440,100 L1440,180 L0,180 Z"
               fill="#1C1242"
             />
           </svg>
