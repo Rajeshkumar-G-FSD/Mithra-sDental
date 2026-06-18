@@ -29,8 +29,8 @@ export function Footer({ appointments, onConfirmAppt, onCancelAppt }: FooterProp
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
           >
-            {/* White top backdrop covering the top edge to guarantee clean transition */}
-            <rect width="1440" height="40" fill="#ffffff" />
+            {/* White backdrop covering the entire SVG to serve as the previous section's white background */}
+            <rect width="1440" height="180" fill="#ffffff" />
             
             {/* Wave 1: Soft lavender layer */}
             <path
