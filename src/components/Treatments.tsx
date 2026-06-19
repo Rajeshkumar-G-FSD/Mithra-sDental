@@ -5,6 +5,7 @@
 
 import { motion } from "motion/react";
 import { Sparkle, Check, PhoneCall, HelpCircle, HeartPulse, ShieldAlert, Award } from "lucide-react";
+import { BlurText } from "./BlurText";
 
 export function Treatments() {
   const leftColumnTreatments = [
@@ -47,15 +48,14 @@ export function Treatments() {
             <span>Comprehensive Care</span>
           </motion.div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-4xl font-serif font-semibold text-slate-900 tracking-tight"
-          >
-            Our Dental Treatments
-          </motion.h2>
+          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-slate-900 tracking-tight flex items-center justify-center">
+            <BlurText
+              text="Our Dental Treatments"
+              delay={120}
+              animateBy="words"
+              className="text-3xl sm:text-4xl font-serif font-semibold text-slate-900 tracking-tight"
+            />
+          </h2>
           
           <div className="w-12 h-1 bg-yellow-400 rounded-full mx-auto" />
 

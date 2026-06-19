@@ -7,6 +7,7 @@ import { motion } from "motion/react";
 import { Palette, ChevronRight, Activity, Smile, RefreshCw, Scissors, Sparkles, HeartPulse } from "lucide-react";
 import { DentalCategory, DentalService } from "../types";
 import { DENTAL_SERVICES } from "../services/dentalService";
+import { BlurText } from "./BlurText";
 
 interface ServicesProps {
   onSelectService: (service: DentalCategory) => void;
@@ -80,7 +81,12 @@ export function Services({ onSelectService }: ServicesProps) {
                 WHAT WE DO
               </span>
               <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-slate-900 tracking-tight">
-                Our Services
+                <BlurText
+                  text="Our Services"
+                  delay={120}
+                  animateBy="words"
+                  className="text-3xl sm:text-4xl font-serif font-semibold text-slate-900 tracking-tight"
+                />
               </h2>
               <div className="w-12 h-1 bg-yellow-400 rounded-full" />
             </div>

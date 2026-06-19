@@ -5,6 +5,7 @@
 
 import { motion } from "motion/react";
 import { Sparkles, Calendar, Heart } from "lucide-react";
+import { BlurText } from "./BlurText";
 
 interface HeroProps {
   onOpenBooking: () => void;
@@ -82,26 +83,25 @@ export function Hero({ onOpenBooking }: HeroProps) {
           </motion.div>
 
           <div className="space-y-4">
-            {/* Primary Majestic Heading in Exact spelling matching reference ("Healty Smiles Everyday") */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl sm:text-6xl md:text-7xl font-serif font-bold tracking-tight text-white leading-[1.05] drop-shadow-md"
-            >
-              Healty Smiles <br />
-              <span className="font-normal font-serif">Everyday</span>
-            </motion.h1>
+            {/* Primary Majestic Heading animated with elegant in-view blur effect */}
+            <div className="text-5xl sm:text-6xl md:text-7xl font-serif font-bold tracking-tight text-white leading-[1.05] drop-shadow-md">
+              <BlurText
+                text="Healthy Smiles Everyday"
+                delay={180}
+                animateBy="words"
+                className="text-5xl sm:text-6xl md:text-7xl font-serif font-bold leading-tight"
+              />
+            </div>
 
-            {/* Subheading from client request */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-sm sm:text-base text-white/90 leading-relaxed italic tracking-wider font-sans opacity-95"
-            >
-              ...because your smile is our passion
-            </motion.p>
+            {/* Subheading with micro bounce-delay blur text */}
+            <div className="text-sm sm:text-base text-yellow-300 leading-relaxed italic tracking-wider font-sans">
+              <BlurText
+                text="...because your smile is our passion"
+                delay={100}
+                animateBy="words"
+                className="text-sm sm:text-base text-yellow-300 font-sans italic"
+              />
+            </div>
           </div>
 
           <motion.p

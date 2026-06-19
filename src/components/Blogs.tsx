@@ -5,6 +5,7 @@
 
 import { motion } from "motion/react";
 import { BookOpen, Calendar, ArrowRight, Clock, User } from "lucide-react";
+import { BlurText } from "./BlurText";
 
 export function Blogs() {
   const blogs = [
@@ -50,7 +51,12 @@ export function Blogs() {
             OUR INSIGHTS
           </span>
           <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-slate-900 tracking-tight">
-            Latest Dental Blogs
+            <BlurText
+              text="Latest Dental Blogs"
+              delay={120}
+              animateBy="words"
+              className="text-3xl sm:text-4xl font-serif font-semibold text-slate-900 tracking-tight"
+            />
           </h2>
           <div className="w-12 h-1 bg-yellow-400 mx-auto rounded-full" />
         </div>

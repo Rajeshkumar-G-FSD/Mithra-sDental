@@ -5,14 +5,17 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X, ShieldCheck } from "lucide-react";
+import { Menu, X, ShieldCheck, ShieldAlert } from "lucide-react";
+import { AdminLogin } from "./AdminLogin";
 
 interface HeaderProps {
   onOpenBooking: () => void;
+  onAdminLoginSuccess: () => void;
 }
 
-export function Header({ onOpenBooking }: HeaderProps) {
+export function Header({ onOpenBooking, onAdminLoginSuccess }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [adminModalOpen, setAdminModalOpen] = useState(false);
 
   const navLinks = [
     { name: "Home", href: "#home" },
@@ -68,7 +71,15 @@ export function Header({ onOpenBooking }: HeaderProps) {
             </nav>
 
             {/* CTA Buttons in exact styling */}
-            <div className="hidden md:flex items-center">
+            <div className="hidden md:flex items-center gap-2.5">
+              <button
+                type="button"
+                onClick={() => setAdminModalOpen(true)}
+                className="text-[10px] font-bold uppercase tracking-wider border border-white/30 hover:border-yellow-300 text-white hover:text-yellow-300 px-4.5 py-2.5 rounded-full transition-all duration-300 flex items-center gap-1.5 cursor-pointer"
+              >
+                <ShieldAlert size={12} className="stroke-[2.5]" />
+                <span>Admin Login</span>
+              </button>
               <button
                 id="header-booking-btn"
                 onClick={onOpenBooking}
@@ -114,6 +125,17 @@ export function Header({ onOpenBooking }: HeaderProps) {
             </nav>
             <div className="flex flex-col gap-2">
               <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setAdminModalOpen(true);
+                }}
+                className="w-full py-2.5 border border-white/20 hover:border-yellow-300 text-white font-bold text-[10px] rounded-full uppercase tracking-widest transition-all text-center flex items-center justify-center gap-1.5"
+              >
+                <ShieldAlert size={12} className="text-yellow-300" />
+                <span>Admin ERP Portal</span>
+              </button>
+              <button
                 id="header-booking-btn-m"
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -131,6 +153,12 @@ export function Header({ onOpenBooking }: HeaderProps) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AdminLogin
+        isOpen={adminModalOpen}
+        onClose={() => setAdminModalOpen(false)}
+        onLoginSuccess={onAdminLoginSuccess}
+      />
     </>
   );
 }

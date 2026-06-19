@@ -17,9 +17,17 @@ export function useAppointments() {
 
   // Load appointments from storage on mount
   useEffect(() => {
+    // 1. Instantly load cache from localStorage
     const data = dentalService.getAppointments();
     setAppointments(data);
     setLoading(false);
+
+    // 2. Perform background sync from Firebase Firestore
+    dentalService.syncWithFirestore().then((syncedData) => {
+      setAppointments(syncedData);
+    }).catch((err) => {
+      console.warn("Firestore sync background failed, using local storage cache:", err);
+    });
   }, []);
 
   // Save an appointment
@@ -41,6 +49,11 @@ export function useAppointments() {
       const updated = [newAppt, ...appointments];
       setAppointments(updated);
       dentalService.saveAppointments(updated);
+
+      // Async write to Firestore
+      dentalService.addAppointmentToFirestore(newAppt).catch((err) => {
+        console.error("Failed to persist appointment on Firestore:", err);
+      });
     },
     [appointments]
   );
@@ -48,11 +61,21 @@ export function useAppointments() {
   // Toggle/Confirm appointment status
   const confirmAppointment = useCallback(
     (id: string) => {
-      const updated = appointments.map((appt) =>
-        appt.id === id ? { ...appt, status: (appt.status === "confirmed" ? "pending" : "confirmed") as "pending" | "confirmed" } : appt
-      );
+      let targetStatus: "pending" | "confirmed" = "confirmed";
+      const updated = appointments.map((appt) => {
+        if (appt.id === id) {
+          targetStatus = appt.status === "confirmed" ? "pending" : "confirmed";
+          return { ...appt, status: targetStatus };
+        }
+        return appt;
+      });
       setAppointments(updated);
       dentalService.saveAppointments(updated);
+
+      // Async update in Firestore
+      dentalService.updateAppointmentInFirestore(id, { status: targetStatus }).catch((err) => {
+        console.error("Failed to update status on Firestore:", err);
+      });
     },
     [appointments]
   );
@@ -63,6 +86,11 @@ export function useAppointments() {
       const updated = appointments.filter((appt) => appt.id !== id);
       setAppointments(updated);
       dentalService.saveAppointments(updated);
+
+      // Async delete from Firestore
+      dentalService.deleteAppointmentFromFirestore(id).catch((err) => {
+        console.error("Failed to delete appointment on Firestore:", err);
+      });
     },
     [appointments]
   );

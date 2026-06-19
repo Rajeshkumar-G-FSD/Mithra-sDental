@@ -18,6 +18,7 @@ import {
   Activity, 
   ShieldAlert 
 } from "lucide-react";
+import { BlurText } from "./BlurText";
 
 export function AboutUs() {
   const ABOUT_IMAGE_URL = "/src/assets/images/dental_about_dentist_1781798344444.jpg";
@@ -131,7 +132,12 @@ export function AboutUs() {
                 WELCOME TO MITHRA’S DENTAL STUDIO
               </span>
               <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-slate-900 tracking-tight">
-                About Our Studio
+                <BlurText
+                  text="About Our Studio"
+                  delay={120}
+                  animateBy="words"
+                  className="text-3xl sm:text-4xl font-serif font-semibold text-slate-900 tracking-tight"
+                />
               </h2>
               <div className="w-12 h-1 bg-yellow-400 rounded-full" />
             </div>
@@ -191,7 +197,12 @@ export function AboutUs() {
                   MEET OUR SPECIALIST
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 leading-tight">
-                  Dr. Mithra, MDS
+                  <BlurText
+                    text="Dr. Mithra, MDS"
+                    delay={100}
+                    animateBy="words"
+                    className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 leading-tight inline-block"
+                  />
                 </h3>
                 <p className="text-xs font-semibold text-[#5D57A5] tracking-wide uppercase">
                   Chief Orthodontist & Aligner Specialist

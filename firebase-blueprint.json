@@ -1,0 +1,55 @@
+{
+  "entities": {
+    "Appointment": {
+      "title": "Appointment",
+      "description": "A scheduled dental service session for a patient.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "patientName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "service": { "type": "string" },
+        "notes": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "confirmed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "patientName",
+        "email",
+        "phone",
+        "date",
+        "time",
+        "service",
+        "status",
+        "createdAt"
+      ]
+    },
+    "ContactRequest": {
+      "title": "ContactRequest",
+      "description": "An inquiry message from the public contact form.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "subject", "message", "createdAt"]
+    }
+  },
+  "firestore": {
+    "appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Stores patient appointments by custom or generated ID"
+    },
+    "contacts/{contactId}": {
+      "schema": "ContactRequest",
+      "description": "Stores general contact inquiries by generated ID"
+    }
+  }
+}

@@ -17,8 +17,10 @@ import { ContactForm } from "./components/ContactForm";
 import { AppointmentModal } from "./components/AppointmentModal";
 import { Footer } from "./components/Footer";
 import { DentalCategory } from "./types";
+import { AdminDashboard } from "./components/AdminDashboard";
 
 export default function App() {
+  const [isAdminMode, setIsAdminMode] = useState(false);
   const {
     appointments,
     isModalOpen,
@@ -42,10 +44,19 @@ export default function App() {
     setIsModalOpen(true);
   };
 
+  if (isAdminMode) {
+    return (
+      <AdminDashboard onLogout={() => setIsAdminMode(false)} />
+    );
+  }
+
   return (
     <div className="relative min-h-screen bg-white font-sans selection:bg-[#5D57A5] selection:text-white">
       {/* 1. Global Navigation Header (Floating Capsule style) */}
-      <Header onOpenBooking={handleOpenGeneralBooking} />
+      <Header
+        onOpenBooking={handleOpenGeneralBooking}
+        onAdminLoginSuccess={() => setIsAdminMode(true)}
+      />
 
       {/* 2. Visual Clinic Hero Display (Exact violet glow photo backdrop) */}
       <Hero onOpenBooking={handleOpenGeneralBooking} />
