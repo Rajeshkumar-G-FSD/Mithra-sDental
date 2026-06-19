@@ -1,6 +1,6 @@
 {
-  "name": "Tailwind Minimal Workspace",
-  "description": "A beautifully designed, highly scalable single-screen workspace boilerplate built with React, TypeScript, and Tailwind CSS, featuring robust components, structured hooks, and typified services.",
+  "name": "Mithra's Dental Studio Erode",
+  "description": "The official website for Mithra’s Dental Studio Erode, featuring elite orthodontic care, detailed contact forms, hours, google review metrics, and beautiful interactive styling in Erode, Tamil Nadu.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

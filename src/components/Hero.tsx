@@ -78,7 +78,7 @@ export function Hero({ onOpenBooking }: HeroProps) {
             className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 text-yellow-300 rounded-full border border-white/10 text-[9px] font-bold uppercase tracking-widest"
           >
             <Sparkles size={11} className="fill-current text-yellow-300" />
-            <span>Welcome To City Smile Dentistry</span>
+            <span>Welcome To Mithra’s Dental Studio Erode</span>
           </motion.div>
 
           <div className="space-y-4">

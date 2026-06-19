@@ -69,7 +69,7 @@ export function Gallery() {
       tag: "clinic",
       src: "https://images.unsplash.com/photo-1527613426441-4da17471b66d?auto=format&fit=crop&q=80&w=600",
       alt: "Impeccably clean lobby setup",
-      title: "City Smile Reception Lounge",
+      title: "Mithra's Premium Reception Lounge",
     },
     {
       id: "gal-9",

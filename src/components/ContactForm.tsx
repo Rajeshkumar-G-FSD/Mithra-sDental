@@ -58,10 +58,10 @@ export function ContactForm({ onSubmitContact }: ContactFormProps) {
           <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
             <div className="space-y-6">
               <h3 className="text-lg font-serif font-semibold text-slate-900">
-                City Smile Clinic Locations
+                Mithra's Dental Studio Clinic
               </h3>
               <p className="text-neutral-500 text-xs sm:text-sm leading-relaxed font-sans">
-                Our main dental facility is conveniently located in the center of Nappa, with secure private parking and step-free access structures.
+                Our premium dental studio is beautifully designed and conveniently situated on EVN Road in Erode, opposite the Government Hospital, with easy access and dedicated patient vehicle assistance.
               </p>
 
               {/* Direct Address nodes */}
@@ -71,28 +71,28 @@ export function ContactForm({ onSubmitContact }: ContactFormProps) {
                     <MapPin size={16} />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900">Main Practice Address</h4>
-                    <p className="text-[11px] text-neutral-400 mt-0.5">451 Clinical Boulevard, Suite B, Nappa, CA 94558</p>
+                    <h4 className="text-xs font-bold text-slate-900">Main Studio Address</h4>
+                    <p className="text-[11px] text-neutral-400 mt-0.5">220/1, EVN Rd, opp. Govt Hospital, near rohini medicals, Erode, Tamil Nadu 638009</p>
                   </div>
                 </div>
 
                 <div className="flex gap-3 items-start">
-                  <div className="p-2 bg-yellow-100 text-yellow-700 rounded-lg shrink-0 mt-0.5">
+                  <div className="p-2 bg-yellow-105 text-yellow-700 rounded-lg shrink-0 mt-0.5">
                     <Phone size={16} />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900">Phone & SMS Check-in</h4>
-                    <p className="text-[11px] text-neutral-400 mt-0.5">Primary: (555) 304-4900 | Fax: (555) 304-4901</p>
+                    <h4 className="text-xs font-bold text-slate-900">Phone & SMS Support</h4>
+                    <p className="text-[11px] text-neutral-400 mt-0.5">Primary: 093845 98991</p>
                   </div>
                 </div>
 
                 <div className="flex gap-3 items-start">
-                  <div className="p-2 bg-yellow-100 text-yellow-700 rounded-lg shrink-0 mt-0.5">
+                  <div className="p-2 bg-yellow-105 text-yellow-700 rounded-lg shrink-0 mt-0.5">
                     <Mail size={16} />
                   </div>
                   <div>
                     <h4 className="text-xs font-bold text-slate-900">Digital Support</h4>
-                    <p className="text-[11px] text-neutral-400 mt-0.5">patient.relations@citysmilepractice.com</p>
+                    <p className="text-[11px] text-neutral-400 mt-0.5">contact@mithrasdentalstudio.com</p>
                   </div>
                 </div>
               </div>
@@ -130,13 +130,13 @@ export function ContactForm({ onSubmitContact }: ContactFormProps) {
                   <MapPin size={22} className="fill-current text-slate-900" />
                 </motion.div>
                 <div className="mt-2.5 px-3 py-1 bg-slate-900 text-white rounded-lg shadow-sm border border-slate-800 text-[10px] font-bold uppercase tracking-wider">
-                  City Smile practice Here
+                  Mithra’s Dental Studio Erode
                 </div>
               </div>
 
               {/* Bottom tag */}
               <div className="relative z-10 flex items-center justify-between text-[10px] font-mono text-neutral-400">
-                <span>COORD // 38.2975 N, 122.2861 W</span>
+                <span>COORD // 11.3410 N, 77.7172 E</span>
                 <span className="text-emerald-600 font-bold">● LIVE GPX PATH ACTIVE</span>
               </div>
             </div>
@@ -157,7 +157,7 @@ export function ContactForm({ onSubmitContact }: ContactFormProps) {
                   Message Transmitted Successfully!
                 </h3>
                 <p className="text-xs text-neutral-500 mt-2 max-w-sm leading-relaxed">
-                  Thank you for writing to City Smile Practice. Our clinical coordinator will audit your inquiry and reply via email within twenty-four business hours.
+                  Thank you for writing to Mithra’s Dental Studio. Our clinical coordinator will review your inquiry and reply via email within twenty-four business hours.
                 </p>
                 <button
                   id="reset-contact-form-btn"

@@ -21,32 +21,42 @@ export function VisitUs({ onOpenBooking }: VisitUsProps) {
           {/* Left Column: Context details */}
           <div className="lg:col-span-6 space-y-6">
             <div className="space-y-2">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="bg-[#12805C] text-white text-[9px] font-bold px-2 py-0.5 rounded-full font-sans tracking-wide">
+                  4.9 ★ 62 Google Reviews
+                </span>
+                <span className="text-neutral-400 text-[10px] font-mono">Orthodontist Specialist</span>
+              </div>
               <span className="text-yellow-600 font-mono text-[11px] font-bold uppercase tracking-widest block">
-                SEEKING EMERGENCY DENTIST AT NAPPA?
+                TOP RATED ORTHODONTIST IN TAMIL NADU
               </span>
               <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-slate-900 tracking-tight">
-                Visit Us Today!
+                Mithra’s Dental Studio Erode
               </h2>
               <div className="w-12 h-1 bg-yellow-400 rounded-full" />
             </div>
 
             <p className="text-neutral-500 text-xs sm:text-sm leading-relaxed font-sans max-w-xl">
-              Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make.
+              Welcome to <strong>Mithra’s Dental Studio</strong> in Erode. Led by top-tier orthodontic specialists, we deliver elite dental implants, braces, teeth whitening, and complete scan diagnostics with state-of-the-art facilities. 
             </p>
 
             <p className="text-neutral-500 text-xs sm:text-sm leading-relaxed font-sans max-w-xl">
-              If you have unexpected discomfort, a broken crown, or swelling, our specialists reserve rapid-response walk-in windows daily to resolve dental emergencies the very same hour.
+              Conveniently located on EVN Road opposite the Government Hospital near Rohini Medicals in Erode, our clinic is just 5 minutes away from key local transits.
             </p>
 
             {/* Timings highlights & Phone */}
-            <div className="space-y-3 pt-2">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-yellow-100 text-yellow-700 rounded-full shrink-0">
+            <div className="space-y-4 pt-2">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-yellow-100 text-yellow-700 rounded-full shrink-0 mt-0.5">
                   <Clock size={16} />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-slate-900">Urgent Care Availability</div>
-                  <div className="text-[10px] text-neutral-400">Monday - Saturday: 9:00 AM - 7:00 PM</div>
+                  <div className="text-xs font-bold text-slate-900">Regular Working Hours</div>
+                  <div className="text-[10px] text-neutral-500 leading-relaxed">
+                    Mon – Sat: 10:00 AM – 2:00 PM, 5:00 PM – 8:00 PM <br />
+                    (Fri opens early at 9:00 AM) <br />
+                    Sunday: Closed
+                  </div>
                 </div>
               </div>
 
@@ -55,8 +65,8 @@ export function VisitUs({ onOpenBooking }: VisitUsProps) {
                   <PhoneCall size={16} />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-slate-900">Emergency Hotline</div>
-                  <div className="text-[10px] text-yellow-600 font-bold font-mono">1-800-CITY-SMILE (24/7 Support)</div>
+                  <div className="text-xs font-bold text-slate-900">Phone Consultation</div>
+                  <div className="text-[11px] text-yellow-605 font-bold font-mono">093845 98991</div>
                 </div>
               </div>
             </div>

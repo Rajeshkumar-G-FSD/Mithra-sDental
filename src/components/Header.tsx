@@ -17,6 +17,7 @@ export function Header({ onOpenBooking }: HeaderProps) {
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "About us", href: "#about-us" },
+    { name: "Treatments", href: "#treatments" },
     { name: "Services", href: "#services" },
     { name: "Blogs", href: "#blogs" },
     { name: "Gallery", href: "#gallery" },
@@ -32,21 +33,22 @@ export function Header({ onOpenBooking }: HeaderProps) {
           {/* Floating purple capsule according to mock screenshot style */}
           <div className="bg-[#5D57A5]/90 backdrop-blur-lg rounded-full px-6 py-2.5 md:py-3 border border-white/15 shadow-lg flex items-center justify-between text-white">
             
-            {/* Elegant Line-Art Custom Tooth Logo matching screenshot */}
-            <a href="#home" className="flex items-center gap-2 group transition-opacity hover:opacity-90">
-              <div className="relative flex items-center justify-center">
-                <svg className="w-8 h-8 text-white filter drop-shadow animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2C10.5 2 9.5 3 9 4.5c-.3 1-.3 2.2-.4 3.5-.1 1-.5 2-1.2 2.7C6.7 11.4 6 12.5 6 14c0 3.3 2.7 6 6 6s6-2.7 6-6c0-1.5-.7-2.6-1.4-3.3-.7-.7-1.1-1.7-1.2-2.7-.1-1.3-.1-2.5-.4-3.5C14.5 3 13.5 2 12 2Z" />
-                  <path d="M12 6c.5 1 .5 2 .5 2.5" stroke="#F1C40F" strokeWidth="1.5" />
-                  <path d="M9 14.5s1 1 3 1 3-1 3-1" stroke="#F1C40F" strokeWidth="1.5" />
-                </svg>
+            {/* Elegant Custom Round Logo matching brand guidelines */}
+            <a href="#home" className="flex items-center gap-2.5 group transition-opacity hover:opacity-90">
+              <div className="relative flex items-center justify-center shrink-0">
+                <img
+                  src="/images/Mithra’s Dental S_round_logo.png"
+                  alt="Mithra’s Dental Studio"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-contain filter drop-shadow-md border border-white/20"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <div className="flex flex-col">
                 <span className="font-display font-bold text-sm tracking-tight leading-none text-white">
-                  City Smile
+                  Mithra's
                 </span>
-                <span className="text-[8px] text-yellow-300 font-mono tracking-widest uppercase mt-0.5">
-                  DENTAL PRACTICE
+                <span className="text-[7.5px] text-yellow-300 font-mono tracking-wider uppercase mt-0.5">
+                  DENTAL STUDIO • ERODE
                 </span>
               </div>
             </a>

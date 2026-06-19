@@ -32,7 +32,7 @@ export function AboutUs() {
               >
                 <img
                   src={ABOUT_IMAGE_URL}
-                  alt="City Smile Consultation Room"
+                  alt="Mithra’s Dental Studio Erode Consultation Room"
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   referrerPolicy="no-referrer"
                 />
@@ -44,8 +44,8 @@ export function AboutUs() {
                   <Award size={18} />
                 </div>
                 <div>
-                  <div className="text-xs font-black uppercase tracking-wider">Top Rated</div>
-                  <div className="text-[10px] font-mono">Clinic of Nappa 2026</div>
+                   <div className="text-xs font-black uppercase tracking-wider">Top Rated</div>
+                   <div className="text-[10px] font-mono">Clinic in Erode 2026</div>
                 </div>
               </div>
             </div>
@@ -55,7 +55,7 @@ export function AboutUs() {
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-2">
               <span className="text-yellow-600 font-mono text-[11px] font-bold uppercase tracking-widest block">
-                WELCOME TO CITY SMILE
+                WELCOME TO MITHRA’S DENTAL STUDIO
               </span>
               <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-slate-900 tracking-tight">
                 About Us
@@ -64,7 +64,7 @@ export function AboutUs() {
             </div>
 
             <p className="text-neutral-500 text-xs sm:text-sm leading-relaxed max-w-2xl font-sans">
-              Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a gallery of type and scramble it to make.
+              At Mithra’s Dental Studio, we are dedicated to transforming your smile with world-class dental solutions. Our state-of-the-art clinic is equipped with cutting-edge medical technologies and advanced diagnostic scans to ensure precise, comfortable, and highly personalized care.
             </p>
 
             <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed max-w-2xl font-sans">

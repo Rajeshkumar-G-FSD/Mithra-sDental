@@ -8,6 +8,7 @@ import { useAppointments } from "./hooks/useAppointments";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { AboutUs } from "./components/AboutUs";
+import { Treatments } from "./components/Treatments";
 import { Services } from "./components/Services";
 import { VisitUs } from "./components/VisitUs";
 import { Blogs } from "./components/Blogs";
@@ -49,8 +50,11 @@ export default function App() {
       {/* 2. Visual Clinic Hero Display (Exact violet glow photo backdrop) */}
       <Hero onOpenBooking={handleOpenGeneralBooking} />
 
-      {/* 3. About City Smile Section */}
+      {/* 3. About Mithra's Dental Studio Section */}
       <AboutUs />
+
+      {/* Our Dental Treatments List */}
+      <Treatments />
 
       {/* 4. Specialties & Services Service Node */}
       <Services onSelectService={handleOpenBookingWithService} />

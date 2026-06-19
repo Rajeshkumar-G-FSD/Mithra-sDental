@@ -127,12 +127,22 @@ export function Footer({ appointments, onConfirmAppt, onCancelAppt }: FooterProp
               <h4 className="text-[14px] sm:text-[15px] font-bold uppercase tracking-[0.15em] text-white">
                 OPENING HOURS
               </h4>
-              <ul className="space-y-4 text-sm text-[#DFDBF2]/80 font-medium tracking-wide">
-                <li className="flex items-center gap-2">
-                  <span className="text-white/40">-</span> Mon – Fri: 9am – 5pm
+              <ul className="space-y-2.5 text-[12px] sm:text-xs text-[#DFDBF2]/80 font-medium tracking-wide">
+                <li className="flex items-start gap-1.5">
+                  <span className="text-white/40 shrink-0 mt-0.5">-</span>
+                  <span>Mon – Thu: 10am – 2pm, 5pm – 8pm</span>
                 </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-white/40">-</span> Sat – Sun: 10am – 4pm
+                <li className="flex items-start gap-1.5">
+                  <span className="text-white/40 shrink-0 mt-0.5">-</span>
+                  <span>Friday: 9am – 2pm, 5pm – 8pm</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-white/40 shrink-0 mt-0.5">-</span>
+                  <span>Saturday: 10am – 2pm, 5pm – 8pm</span>
+                </li>
+                <li className="flex items-start gap-1.5 text-rose-300">
+                  <span className="text-rose-450 shrink-0 mt-0.5">-</span>
+                  <span>Sunday: Closed</span>
                 </li>
               </ul>
             </div>
@@ -144,31 +154,30 @@ export function Footer({ appointments, onConfirmAppt, onCancelAppt }: FooterProp
             
             {/* Branding Block */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
-                <svg className="w-5 h-5 text-yellow-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2C10.5 2 9.5 3 9 4.5c-.3 1-.3 2.2-.4 3.5-.1 1-.5 2-1.2 2.7C6.7 11.4 6 12.5 6 14c0 3.3 2.7 6 6 6s6-2.7 6-6c0-1.5-.7-2.6-1.4-3.3-.7-.7-1.1-1.7-1.2-2.7-.1-1.3-.1-2.5-.4-3.5C14.5 3 13.5 2 12 2Z" />
-                </svg>
-              </div>
+              <img
+                src="/images/Mithra’s Dental S_round_logo.png"
+                alt="Mithra’s Dental Studio"
+                className="w-10 h-10 rounded-full object-contain filter drop-shadow border border-white/20"
+                referrerPolicy="no-referrer"
+              />
               <div className="flex flex-col">
-                <span className="text-[14px] font-bold tracking-wide text-white uppercase leading-none">City Smile</span>
-                <span className="text-[7.5px] text-yellow-300 font-mono tracking-widest uppercase mt-1">DENTAL PRACTICE</span>
+                <span className="text-[14px] font-bold tracking-wide text-white uppercase leading-none">Mithra's</span>
+                <span className="text-[7.5px] text-yellow-300 font-mono tracking-widest uppercase mt-1">DENTAL STUDIO • ERODE</span>
               </div>
             </div>
 
-            {/* Backoffice access */}
-            <div className="flex items-center gap-4">
-              <button
-                id="toggle-staff-database-btn"
-                onClick={() => setShowStaffPortal(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-yellow-300 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer border border-white/10"
+            {/* Credits with animation & clickable DataZync link */}
+            <div className="text-[10px] text-white/50 font-mono flex flex-wrap items-center justify-center gap-1.5 md:justify-end text-center md:text-right">
+              <span>© 2026 Mithra’s Dental Studio Erode • Developed by </span>
+              <a
+                href="https://www.datazync.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-yellow-300 hover:text-white font-bold transition-all duration-300 transform hover:scale-105 relative group tracking-wider"
               >
-                <Database size={11} className="animate-pulse" />
-                <span>Interactive Staff Admin Portal</span>
-              </button>
-            </div>
-
-            <div className="text-[10px] text-white/50 font-mono">
-              © 2026 CITY SMILE PRACTICE INC. • <a href="#home" className="hover:text-yellow-300">PRIVACY</a>
+                DataZync
+                <span className="absolute left-0 -bottom-0.5 w-0 h-[1.5px] bg-yellow-300 group-hover:w-full transition-all duration-300" />
+              </a>
             </div>
 
           </div>
