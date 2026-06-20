@@ -21,6 +21,8 @@ export interface Appointment {
   time: string;
   service: DentalCategory;
   notes?: string;
+  address?: string;
+  appointmentType?: string;
   status: "pending" | "confirmed";
   createdAt: string;
 }

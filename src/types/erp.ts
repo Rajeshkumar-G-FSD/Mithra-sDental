@@ -91,6 +91,10 @@ export interface ErpAppointment {
   notes?: string;
   branchId: string;
   createdAt: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  appointmentType?: string;
 }
 
 export interface ErpServiceItem {

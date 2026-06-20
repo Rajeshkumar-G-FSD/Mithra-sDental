@@ -143,13 +143,27 @@ export const dentalService = {
    * Sync localized state with Firestore. Fetches all documents and combines them with local cache.
    */
   async syncWithFirestore(): Promise<Appointment[]> {
-    const path = "appointments";
+    const path = "erp_appointments";
     try {
       const q = collection(db, path);
       const snapshot = await getDocs(q);
       const firestoreAppts: Appointment[] = [];
       snapshot.forEach((doc) => {
-        firestoreAppts.push({ id: doc.id, ...doc.data() } as Appointment);
+        const d = doc.data();
+        firestoreAppts.push({
+          id: doc.id,
+          patientName: d.patientName || "Walk-in Patient",
+          email: d.email || "",
+          phone: d.phone || "",
+          date: d.date || "",
+          time: d.timeSlot || d.time || "",
+          service: d.serviceName || d.service || "",
+          notes: d.notes || "",
+          address: d.address || "",
+          appointmentType: d.appointmentType || "",
+          status: (d.status && String(d.status).toLowerCase() === "confirmed") ? "confirmed" : "pending",
+          createdAt: d.createdAt || new Date().toISOString(),
+        } as Appointment);
       });
 
       if (firestoreAppts.length === 0) {
@@ -157,17 +171,26 @@ export const dentalService = {
         const local = this.getAppointments();
         const batch = writeBatch(db);
         local.forEach((appt) => {
-          const docRef = doc(db, "appointments", appt.id);
+          const docRef = doc(db, "erp_appointments", appt.id);
           batch.set(docRef, {
+            id: appt.id,
+            patientId: "online-guest",
             patientName: appt.patientName,
-            email: appt.email,
-            phone: appt.phone,
+            doctorId: "d-1",
+            doctorName: "Dr. Mithra",
             date: appt.date,
-            time: appt.time,
-            service: appt.service,
+            timeSlot: appt.time,
+            serviceId: String(appt.service).toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+            serviceName: appt.service,
+            status: appt.status === "confirmed" ? "Confirmed" : "Pending",
+            type: "Online",
             notes: appt.notes || "",
-            status: appt.status,
+            branchId: "br-1",
             createdAt: appt.createdAt,
+            phone: appt.phone || "",
+            email: appt.email || "",
+            address: appt.address || "",
+            appointmentType: appt.appointmentType || "",
           });
         });
         await batch.commit();
@@ -183,7 +206,6 @@ export const dentalService = {
     } catch (err) {
       // In case of permission errors, log gracefully and fallback to local
       console.warn("Could not sync appointments with Firestore:", err);
-      // Let's use our mandatory handleFirestoreError if the error is a real permission/fatal failure
       if (err instanceof Error && err.message.toLowerCase().includes("permission")) {
         handleFirestoreError(err, OperationType.LIST, path);
       }
@@ -195,21 +217,30 @@ export const dentalService = {
    * Push a single booked appointment to Firestore
    */
   async addAppointmentToFirestore(appt: Appointment): Promise<void> {
-    const path = `appointments/${appt.id}`;
+    const path = `erp_appointments/${appt.id}`;
     try {
-      await setDoc(doc(db, "appointments", appt.id), {
+      await setDoc(doc(db, "erp_appointments", appt.id), {
+        id: appt.id,
+        patientId: "online-guest",
         patientName: appt.patientName,
-        email: appt.email,
-        phone: appt.phone,
+        doctorId: "d-1",
+        doctorName: "Dr. Mithra",
         date: appt.date,
-        time: appt.time,
-        service: appt.service,
+        timeSlot: appt.time,
+        serviceId: String(appt.service).toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+        serviceName: appt.service,
+        status: appt.status === "confirmed" ? "Confirmed" : "Pending",
+        type: "Online",
         notes: appt.notes || "",
-        status: appt.status,
+        branchId: "br-1",
         createdAt: appt.createdAt,
+        phone: appt.phone || "",
+        email: appt.email || "",
+        address: appt.address || "",
+        appointmentType: appt.appointmentType || "",
       });
     } catch (err) {
-      console.error("Error setting doc in appointments:", err);
+      console.error("Error setting doc in erp_appointments:", err);
       handleFirestoreError(err, OperationType.CREATE, path);
     }
   },
@@ -218,12 +249,26 @@ export const dentalService = {
    * Sync status of a single appointment in Firestore
    */
   async updateAppointmentInFirestore(id: string, updates: Partial<Appointment>): Promise<void> {
-    const path = `appointments/${id}`;
+    const path = `erp_appointments/${id}`;
     try {
-      const docRef = doc(db, "appointments", id);
-      await updateDoc(docRef, updates);
+      const docRef = doc(db, "erp_appointments", id);
+      const erpUpdates: any = {};
+      if (updates.status !== undefined) {
+        erpUpdates.status = updates.status === "confirmed" ? "Confirmed" : "Pending";
+      }
+      if (updates.patientName !== undefined) erpUpdates.patientName = updates.patientName;
+      if (updates.date !== undefined) erpUpdates.date = updates.date;
+      if (updates.time !== undefined) erpUpdates.timeSlot = updates.time;
+      if (updates.service !== undefined) {
+        erpUpdates.serviceName = updates.service;
+        erpUpdates.serviceId = String(updates.service).toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      }
+      if (updates.address !== undefined) erpUpdates.address = updates.address;
+      if (updates.appointmentType !== undefined) erpUpdates.appointmentType = updates.appointmentType;
+      
+      await updateDoc(docRef, erpUpdates);
     } catch (err) {
-      console.error("Error updating doc in appointments:", err);
+      console.error("Error updating doc in erp_appointments:", err);
       handleFirestoreError(err, OperationType.UPDATE, path);
     }
   },
@@ -232,12 +277,12 @@ export const dentalService = {
    * Remove a single appointment in Firestore
    */
   async deleteAppointmentFromFirestore(id: string): Promise<void> {
-    const path = `appointments/${id}`;
+    const path = `erp_appointments/${id}`;
     try {
-      const docRef = doc(db, "appointments", id);
+      const docRef = doc(db, "erp_appointments", id);
       await deleteDoc(docRef);
     } catch (err) {
-      console.error("Error deleting doc in appointments:", err);
+      console.error("Error deleting doc in erp_appointments:", err);
       handleFirestoreError(err, OperationType.DELETE, path);
     }
   },

@@ -32,7 +32,7 @@ export function useAppointments() {
 
   // Save an appointment
   const bookAppointment = useCallback(
-    (patientName: string, email: string, phone: string, date: string, time: string, service: DentalCategory, notes?: string) => {
+    (patientName: string, email: string, phone: string, date: string, time: string, service: DentalCategory, notes?: string, address?: string, appointmentType?: string) => {
       const newAppt: Appointment = {
         id: `appt-${Date.now()}`,
         patientName: patientName.trim(),
@@ -42,6 +42,8 @@ export function useAppointments() {
         time,
         service,
         notes: notes?.trim() || "",
+        address: address?.trim() || "",
+        appointmentType: appointmentType?.trim() || "",
         status: "pending",
         createdAt: new Date().toISOString(),
       };

@@ -85,7 +85,7 @@ export function Header({ onOpenBooking, onAdminLoginSuccess }: HeaderProps) {
                 onClick={onOpenBooking}
                 className="text-[10px] font-black uppercase tracking-widest bg-[#F0C808] hover:bg-yellow-405 text-slate-900 px-6 py-2.5 rounded-full transition-all duration-300 hover:shadow-md hover:scale-105 cursor-pointer transform active:scale-95"
               >
-                Contact Us
+                Appointment
               </button>
             </div>
 
@@ -143,7 +143,7 @@ export function Header({ onOpenBooking, onAdminLoginSuccess }: HeaderProps) {
                 }}
                 className="w-full py-2.5 bg-[#F0C808] hover:bg-yellow-500 text-slate-900 font-black text-[10px] rounded-full uppercase tracking-widest transition-all text-center"
               >
-                Contact Us
+                Appointment
               </button>
               <div className="flex items-center justify-center gap-2 text-[9px] text-white/60 mt-1">
                 <ShieldCheck size={12} className="text-yellow-300" />

@@ -77,7 +77,7 @@ export function VisitUs({ onOpenBooking }: VisitUsProps) {
                 onClick={onOpenBooking}
                 className="py-3 px-8 bg-yellow-400 hover:bg-yellow-505 text-slate-900 font-bold text-xs uppercase tracking-widest rounded-full shadow-md transition-all cursor-pointer text-center"
               >
-                Contact Us
+                Appointment
               </button>
               <a
                 id="visit-learn-more-btn"

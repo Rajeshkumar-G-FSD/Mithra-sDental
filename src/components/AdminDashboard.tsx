@@ -110,6 +110,9 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [patientSearch, setPatientSearch] = useState("");
   const [invSearch, setInvSearch] = useState("");
   const [aptFilterStatus, setAptFilterStatus] = useState<string>("all");
+  const [aptFilterDateMode, setAptFilterDateMode] = useState<string>("all");
+  const [aptFilterStartDate, setAptFilterStartDate] = useState<string>("");
+  const [aptFilterEndDate, setAptFilterEndDate] = useState<string>("");
 
   // Edit / Add Item Forms State
   const [isPatientModalOpen, setIsPatientModalOpen] = useState(false);
@@ -132,9 +135,11 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [billingTab, setBillingTab] = useState<"invoices" | "cashbook" | "consultant_settlements">("invoices");
 
   // Load all ERP context
-  const loadAllErpContext = async () => {
+  const loadAllErpContext = async (isSilent: boolean = false) => {
     try {
-      setLoading(true);
+      if (!isSilent) {
+        setLoading(true);
+      }
       const [
         brs, pat, doc, con, apt, srv, plans, inv, sups, pos, invs, txs, lds, stf
       ] = await Promise.all([
@@ -177,6 +182,13 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
   useEffect(() => {
     loadAllErpContext();
+    
+    // Set up real-time scenario synchronization/polling every 10 seconds
+    const interval = setInterval(() => {
+      loadAllErpContext(true);
+    }, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
   // Sync timeline on patient switch
@@ -326,13 +338,77 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     loadAllErpContext();
   };
 
+  const checkAndCreatePatientRecord = async (apt: ErpAppointment) => {
+    // normalized phone strings for search
+    const cleanAptPhone = apt.phone ? apt.phone.replace(/[^0-9]/g, "") : "";
+    const isAlreadyPatient = patients.some(p => {
+      const cleanPPhone = p.mobile ? p.mobile.replace(/[^0-9]/g, "") : "";
+      return (
+        (cleanAptPhone && cleanPPhone && cleanAptPhone === cleanPPhone) ||
+        p.name.toLowerCase().trim() === apt.patientName.toLowerCase().trim()
+      );
+    });
+
+    if (!isAlreadyPatient) {
+      const generatedPatientId = `MDS-P-${String(patients.length + 1).padStart(3, "0")}`;
+      const newPatient: ErpPatient = {
+        id: `p-${Date.now()}-${Math.floor(Math.random() * 1050)}`,
+        patientId: generatedPatientId,
+        name: apt.patientName,
+        dob: "1994-01-01",
+        gender: "Female",
+        mobile: apt.phone || "",
+        email: apt.email || "",
+        address: apt.address || "Adyar, Chennai",
+        bloodGroup: "O+",
+        medicalHistory: apt.notes ? [apt.notes] : ["Registered via Online Booking Approval"],
+        allergies: [],
+        insuranceDetails: "None",
+        emergencyContact: { name: "", relationship: "", phone: "" },
+        createdAt: new Date().toISOString()
+      };
+      await erpService.saveItem<ErpPatient>("patients", newPatient);
+    }
+  };
+
   const handleToggleAptStatus = async (id: string, newStatus: ErpAppointment["status"]) => {
     const item = appointments.find(a => a.id === id);
     if (item) {
       const updated = { ...item, status: newStatus };
       await erpService.saveItem<ErpAppointment>("erp_appointments", updated);
+      if (newStatus === "Confirmed") {
+        await checkAndCreatePatientRecord(item);
+      }
       loadAllErpContext();
     }
+  };
+
+  const handleApproveAndWhatsApp = async (apt: ErpAppointment) => {
+    const updated = { ...apt, status: "Confirmed" as const };
+    await erpService.saveItem<ErpAppointment>("erp_appointments", updated);
+    await checkAndCreatePatientRecord(apt);
+    loadAllErpContext();
+
+    const phoneNum = apt.phone ? apt.phone.replace(/[^0-9]/g, "") : "";
+    const finalPhone = phoneNum.length === 10 ? `91${phoneNum}` : phoneNum;
+    
+    const formattedDate = apt.date.split("-").reverse().join("/");
+    const message = 
+      `*Mithra's Dental Studio & Expanded Hospital*\n` +
+      `------------------------------------\n` +
+      `Dear *${apt.patientName}*,\n\n` +
+      `🎉 We are pleased to inform you that your appointment with Dr. Mithra has been *APPROVED & CONFIRMED*!\n\n` +
+      `📅 *Date:* ${formattedDate}\n` +
+      `⏰ *Time:* ${apt.timeSlot}\n` +
+      `🩺 *Practitioner:* ${apt.doctorName || "Dr. Mithra"}\n` +
+      `🦷 *Treatment:* ${apt.serviceName}\n\n` +
+      `Please report 10 minutes prior to your schedule. If you need any assistance, feel free to reply.\n` +
+      `------------------------------------\n` +
+      `_Location:_ No: 12B, Ground Floor, Adyar, Chennai - 600020.`;
+
+    const encodedMsg = encodeURIComponent(message);
+    const url = `https://wa.me/${finalPhone}?text=${encodedMsg}`;
+    window.open(url, "_blank");
   };
 
   const handleSaveInventory = async (e: React.FormEvent) => {
@@ -1265,22 +1341,80 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       ))}
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-bold text-slate-500 uppercase">Sort / Filter List:</span>
-                      <select
-                        value={aptFilterStatus}
-                        onChange={(e) => setAptFilterStatus(e.target.value)}
-                        className="p-1.5 text-xs rounded-lg border border-slate-200 focus:outline-hidden"
-                      >
-                        <option value="all">All Status Modes</option>
-                        <option value="Pending">Pending Approval</option>
-                        <option value="Confirmed">Confirmed Bookings</option>
-                        <option value="Checked-In">Active Checked-In</option>
-                        <option value="Completed">Completed Treatments</option>
-                        <option value="Cancelled">Cancelled</option>
-                      </select>
+                    <div className="flex flex-wrap items-center gap-4">
+                      {/* Sort/Filter Status */}
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase">Status:</span>
+                        <select
+                          value={aptFilterStatus}
+                          onChange={(e) => setAptFilterStatus(e.target.value)}
+                          className="p-1.5 text-xs bg-slate-50 rounded-lg border border-slate-200 focus:outline-[#5D57A5]"
+                        >
+                          <option value="all">All Modes</option>
+                          <option value="Pending">Pending Approval</option>
+                          <option value="Confirmed">Confirmed Bookings</option>
+                          <option value="Checked-In">Active Checked-In</option>
+                          <option value="Completed">Completed Treatments</option>
+                          <option value="Cancelled">Cancelled</option>
+                        </select>
+                      </div>
+
+                      {/* Date Filter Selection */}
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase">Search Dates:</span>
+                        <select
+                          value={aptFilterDateMode}
+                          onChange={(e) => setAptFilterDateMode(e.target.value)}
+                          className="p-1.5 text-xs bg-[#5D57A5]/10 text-[#5D57A5] font-bold rounded-lg border border-transparent focus:outline-[#5D57A5]"
+                        >
+                          <option value="all">All Dates</option>
+                          <option value="today">Today (19/06)</option>
+                          <option value="tomorrow">Tomorrow (20/06)</option>
+                          <option value="week">This Week</option>
+                          <option value="range">Custom Range</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Modern Filter Custom Date Inputs */}
+                  {aptFilterDateMode === "range" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-slate-50 p-4 border border-slate-150 rounded-2xl flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-700"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Start Date:</span>
+                        <input
+                          type="date"
+                          value={aptFilterStartDate}
+                          onChange={(e) => setAptFilterStartDate(e.target.value)}
+                          className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white focus:ring-1 focus:ring-[#5D57A5] focus:outline-hidden cursor-pointer"
+                        />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">End Date:</span>
+                        <input
+                          type="date"
+                          value={aptFilterEndDate}
+                          onChange={(e) => setAptFilterEndDate(e.target.value)}
+                          className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white focus:ring-1 focus:ring-[#5D57A5] focus:outline-hidden cursor-pointer"
+                        />
+                      </div>
+                      {(aptFilterStartDate || aptFilterEndDate) && (
+                        <button
+                          onClick={() => {
+                            setAptFilterStartDate("");
+                            setAptFilterEndDate("");
+                          }}
+                          className="px-2.5 py-1 text-[10px] bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg cursor-pointer uppercase font-extrabold tracking-wider"
+                        >
+                          Clear
+                        </button>
+                      )}
+                    </motion.div>
+                  )}
 
                   {/* Grid layout containing structural Day List & Calendar */}
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -1339,34 +1473,86 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       </div>
                     </div>
 
-                    {/* Left List block */}
-                    <div className="bg-white rounded-3xl border border-slate-200 p-5 space-y-4">
-                      <h3 className="text-xs font-black uppercase text-slate-400">All Scheduled Appointments ({filteredAppointments.length})</h3>
-                      <div className="space-y-3 max-h-[380px] overflow-y-auto">
-                        {filteredAppointments
-                          .filter(a => aptFilterStatus === "all" || a.status === aptFilterStatus)
-                          .map(apt => (
-                            <div key={apt.id} className="p-3.5 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col justify-between text-xs transition-colors">
-                              <div className="flex justify-between items-start">
-                                <span className="font-extrabold text-slate-800">{apt.patientName}</span>
-                                <span className={`px-1.5 py-0.2 rounded-sm text-[8px] font-semibold uppercase tracking-wider ${
-                                  apt.status === "Pending" ? "bg-slate-200 text-slate-800" :
-                                  apt.status === "Confirmed" ? "bg-emerald-100 text-emerald-850" :
-                                  "bg-indigo-100 text-indigo-850"
-                                }`}>
-                                  {apt.status}
-                                </span>
+                    {/* Left List block with advanced date computations */}
+                    {(() => {
+                      const displayedList = filteredAppointments.filter(a => {
+                        // 1. Filter by Status select
+                        if (aptFilterStatus !== "all" && a.status !== aptFilterStatus) return false;
+
+                        // 2. Filter by Date range setting
+                        if (aptFilterDateMode === "today") {
+                          return a.date === "2026-06-19";
+                        } else if (aptFilterDateMode === "tomorrow") {
+                          return a.date === "2026-06-20";
+                        } else if (aptFilterDateMode === "week") {
+                          // 2026-06-19 to 2026-06-25 (7 days)
+                          return a.date >= "2026-06-19" && a.date <= "2026-06-25";
+                        } else if (aptFilterDateMode === "range") {
+                          if (aptFilterStartDate && a.date < aptFilterStartDate) return false;
+                          if (aptFilterEndDate && a.date > aptFilterEndDate) return false;
+                        }
+                        return true;
+                      });
+
+                      return (
+                        <div className="bg-white rounded-3xl border border-slate-200 p-5 space-y-4">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-xs font-black uppercase text-slate-400">
+                              Appointments List ({displayedList.length})
+                            </h3>
+                            {aptFilterDateMode !== "all" && (
+                              <span className="text-[9px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                Filter Active
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="space-y-3 max-h-[420px] overflow-y-auto pr-1">
+                            {displayedList.length === 0 ? (
+                              <div className="text-center py-10 space-y-2">
+                                <AlertCircle className="mx-auto text-slate-300" size={24} />
+                                <p className="text-xs font-bold text-slate-400">No appointments matching filters.</p>
                               </div>
-                              <div className="text-[11px] text-slate-500 mt-1 space-y-0.5">
-                                <p>🗓️ Date: {apt.date} • {apt.timeSlot}</p>
-                                <p>🩺 Practitioner: {apt.doctorName}</p>
-                                <p>💼 Treatment: {apt.serviceName} ({apt.type})</p>
-                              </div>
-                              {apt.notes && <p className="text-[10px] italic text-slate-400 mt-1">"{apt.notes}"</p>}
-                            </div>
-                          ))}
-                      </div>
-                    </div>
+                            ) : (
+                              displayedList.map(apt => (
+                                <div key={apt.id} className="p-3.5 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col justify-between text-xs transition-colors hover:border-slate-300">
+                                  <div className="flex justify-between items-start">
+                                    <span className="font-extrabold text-slate-800 leading-tight">{apt.patientName}</span>
+                                    <span className={`px-1.5 py-0.5 rounded-md text-[8px] font-black uppercase tracking-wider ${
+                                      apt.status === "Pending" ? "bg-amber-100 text-amber-800 border border-amber-200" :
+                                      apt.status === "Confirmed" ? "bg-emerald-100 text-emerald-800 border border-emerald-200" :
+                                      "bg-indigo-100 text-indigo-850"
+                                    }`}>
+                                      {apt.status}
+                                    </span>
+                                  </div>
+                                  <div className="text-[11px] text-slate-500 mt-2 space-y-0.5">
+                                    <p>🗓️ Date: {apt.date.split("-").reverse().join("/")} • {apt.timeSlot}</p>
+                                    <p>🩺 Practitioner: {apt.doctorName}</p>
+                                    <p>💼 Treatment: {apt.serviceName} ({apt.type})</p>
+                                    {apt.appointmentType && <p>📋 Category: {apt.appointmentType}</p>}
+                                    {apt.phone && <p>📞 Phone/WA: {apt.phone}</p>}
+                                    {apt.address && <p>📍 Address: {apt.address}</p>}
+                                  </div>
+                                  {apt.notes && <p className="text-[10px] italic text-slate-400 mt-1.5 p-1.5 bg-slate-100 rounded-lg">"{apt.notes}"</p>}
+
+                                  {/* Pending approvals trigger button with Whatsapp integration */}
+                                  {apt.status === "Pending" && (
+                                    <button
+                                      onClick={() => handleApproveAndWhatsApp(apt)}
+                                      className="mt-3.5 w-full py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-[10px] font-extrabold uppercase tracking-widest rounded-xl transition-all shadow-md cursor-pointer flex items-center justify-center gap-1.5"
+                                    >
+                                      <CheckCircle size={12} className="stroke-[3]" />
+                                      <span>Approve & Confirmed WA</span>
+                                    </button>
+                                  )}
+                                </div>
+                              ))
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
                 </motion.div>
               )}
